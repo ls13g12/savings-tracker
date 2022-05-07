@@ -1,7 +1,7 @@
 import Head from 'next/head'
+import { InferGetStaticPropsType } from 'next'
 
-export default function Home({ coins }){
-    console.log(coins)
+export default function Home({ coins }: InferGetStaticPropsType<typeof getStaticProps>){
     return (
         <div>
         <Head>
@@ -11,8 +11,8 @@ export default function Home({ coins }){
         <main>
             <h1>Hello World</h1>
             <div>
-                {coins.map((coin) => (
-                <div key={coin.item.coin_id}> {coin.item.name}: {coin.item.price_btc} BTC </div>
+                {coins.map((coin: Coin) => (
+                <div key={coin.item.coin_id}> {coin.item.name}: {Number(coin.item.price_btc).toFixed(8)} BTC </div>
                 ))}
             </div>
         </main>
@@ -20,14 +20,19 @@ export default function Home({ coins }){
     )
  }
 
+interface Coin {
+    item: {
+        coin_id: number
+        name: string
+        price_btc: string
+    }
+}
 
 export const getStaticProps = async () => {
     const res = await fetch(`https://api.coingecko.com/api/v3/search/trending`)
     const data = await res.json()
 
-    return {
-        props: {
-            coins: data.coins,
-        },
+    return{ 
+        props: {coins: data.coins}
     }
 }
