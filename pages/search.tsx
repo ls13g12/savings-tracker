@@ -1,24 +1,35 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import searchCoingecko from '../utils/coingecko_helper';
+import { Coin } from '../types/Coin';
 
 const Search = () => {
-    const [newCoin, setNewCoin] = useState('')
-    const [coins, setCoins] = useState([])
+    const [newCoin, setNewCoin] = useState<string>('')
+    const [coins, setCoins] = useState<Coin[]>()
+    const [message, setMessage] = useState<string>('')
 
-    const handleNewCoin = async (event: any) => {
+    useEffect(() => {   
+        const searchCoin = async () => {
+            const filteredCoins = await searchCoingecko(newCoin)
+            //only show 10 or fewer coins
+            if (filteredCoins && filteredCoins.length <= 20){
+                setCoins(filteredCoins)
+                setMessage('Here are your coins!')
+            }
+            else {
+                setMessage('Refine your search')
+                setCoins([])
+            }
+        }
+        searchCoin()
+    }, [newCoin])
 
+    const handleNewCoin = async (event: React.ChangeEvent<HTMLInputElement>) => {
         setNewCoin(event.target.value)
-
-        const response = await fetch(`https://api.coingecko.com/api/v3/search?query=${newCoin}`)
-        const data = await response.json()
-
-        //filter coins which have a market cap which is not null and less than 100
-        const filteredCoins = data.coins.filter((coin: Coin) => coin.market_cap_rank && coin.market_cap_rank < 100)
-        
-        setCoins(filteredCoins)
     }
 
     return (
         <div>
+            <h3>{message}</h3>
             <form>
                 <label>Search: </label>
                 <input
@@ -28,18 +39,13 @@ const Search = () => {
             </form>
             <div>
                 <ul>
-                {coins.map((coin: Coin) => (
+                {coins?.map((coin: Coin) => (
                     <li key={coin.id}>{coin.id}</li>
                 ))}
                 </ul>
             </div>
         </div>
     );
-}
-
-export interface Coin {
-    id: string
-    market_cap_rank: number
 }
 
 export default Search;
