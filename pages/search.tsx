@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import searchCoingecko from '../utils/coingecko_helper';
+import coingecko from '../utils/coingecko_helper';
 import { Coin } from '../types/Coin';
 
 const Search = () => {
@@ -9,15 +9,21 @@ const Search = () => {
 
     useEffect(() => {   
         const searchCoin = async () => {
-            const filteredCoins = await searchCoingecko(newCoin)
-            //only show 10 or fewer coins
-            if (filteredCoins && filteredCoins.length <= 20){
-                setCoins(filteredCoins)
-                setMessage('Here are your coins!')
-            }
-            else {
-                setMessage('Refine your search')
-                setCoins([])
+            const searchedCoins = await coingecko.search(newCoin)
+
+            //marketcap limit currently hardcoded - feature for user to select?
+            if (searchedCoins){
+                const filteredCoins: Coin[] = coingecko.filterByMarketCapRank(searchedCoins as Coin[], 200)
+
+                //only show 20 or fewer coins  - currently hardcoded
+                if (filteredCoins.length <= 5){
+                    setCoins(filteredCoins)
+                    setMessage('Here are your coins!')
+                }
+                else {
+                    setMessage('Refine your search')
+                    setCoins([])
+                }
             }
         }
         searchCoin()
@@ -40,7 +46,7 @@ const Search = () => {
             <div>
                 <ul>
                 {coins?.map((coin: Coin) => (
-                    <li key={coin.id}>{coin.id}</li>
+                    <li key={coin.id}>{coin.id} - rank: {coin.market_cap_rank}</li>
                 ))}
                 </ul>
             </div>

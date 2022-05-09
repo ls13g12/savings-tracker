@@ -4,7 +4,7 @@ interface Data {
     coins: Coin[]
 }
 
-const searchCoingecko = async (string: string): Promise<Coin[] | undefined> => {
+const search = async (string: string): Promise<Coin[] | undefined> => {
     try{
         const response = await fetch(`https://api.coingecko.com/api/v3/search?query=${string}`)
         const data = <Data> await response.json()
@@ -15,4 +15,13 @@ const searchCoingecko = async (string: string): Promise<Coin[] | undefined> => {
     }
 }
 
-export default searchCoingecko
+const filterByMarketCapRank = (coins: Coin[], marketCapRank: number): Coin[] => {
+    return coins.filter((coin: Coin) => coin && coin.market_cap_rank && coin.market_cap_rank < marketCapRank)
+}
+
+const coingecko = {
+    search,
+    filterByMarketCapRank
+}
+
+export default coingecko
