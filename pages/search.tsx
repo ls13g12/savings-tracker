@@ -15,7 +15,7 @@ const Search = () => {
             if (searchedCoins){
                 const filteredCoins: Coin[] = coingecko.filterByMarketCapRank(searchedCoins as Coin[], 200)
 
-                //only show 20 or fewer coins  - currently hardcoded
+                //only show 5 or fewer coins  - currently hardcoded
                 if (filteredCoins.length <= 5){
                     setCoins(filteredCoins)
                     setMessage('Here are your coins!')
