@@ -4,7 +4,7 @@ import { Coin } from '../types/Coin';
 
 const Search = () => {
     const [newCoin, setNewCoin] = useState<string>('')
-    const [coins, setCoins] = useState<Coin[]>()
+    const [coins, setCoins] = useState<Coin[]>([])
     const [message, setMessage] = useState<string>('')
 
     useEffect(() => {   
