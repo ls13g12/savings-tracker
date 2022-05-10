@@ -1,20 +1,26 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import coingecko from '../utils/coingecko_helper';
+import { Coin } from '../types/Coin';
 
 const Search = () => {
-    const [newCoin, setNewCoin] = useState('')
-    const [coins, setCoins] = useState([])
+    const [newCoin, setNewCoin] = useState<string>('')
+    const [coins, setCoins] = useState<Coin[]>([])
 
-    const handleNewCoin = async (event: any) => {
+    useEffect(() => {   
+        const searchCoin = async () => {
+            const searchedCoins = await coingecko.search(newCoin)
 
+            //marketcap limit currently hardcoded - feature for user to select?
+            if (searchedCoins){
+                const filteredCoins: Coin[] = coingecko.filterByMarketCapRank(searchedCoins as Coin[], 200)
+                setCoins(filteredCoins)
+            }
+        }
+        searchCoin()
+    }, [newCoin])
+
+    const handleNewCoin = async (event: React.ChangeEvent<HTMLInputElement>) => {
         setNewCoin(event.target.value)
-
-        const response = await fetch(`https://api.coingecko.com/api/v3/search?query=${newCoin}`)
-        const data = await response.json()
-
-        //filter coins which have a market cap which is not null and less than 100
-        const filteredCoins = data.coins.filter((coin: Coin) => coin.market_cap_rank && coin.market_cap_rank < 100)
-        
-        setCoins(filteredCoins)
     }
 
     return (
@@ -28,18 +34,13 @@ const Search = () => {
             </form>
             <div>
                 <ul>
-                {coins.map((coin: Coin) => (
-                    <li key={coin.id}>{coin.id}</li>
+                {coins?.map((coin: Coin) => (
+                    <li key={coin.id}>{coin.id} - rank: {coin.market_cap_rank}</li>
                 ))}
                 </ul>
             </div>
         </div>
     );
-}
-
-export interface Coin {
-    id: string
-    market_cap_rank: number
 }
 
 export default Search;
