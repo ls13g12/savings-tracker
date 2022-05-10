@@ -25,7 +25,6 @@ const Search = () => {
 
     return (
         <div>
-            <h3>{message}</h3>
             <form>
                 <label>Search: </label>
                 <input
