@@ -5,7 +5,6 @@ import { Coin } from '../types/Coin';
 const Search = () => {
     const [newCoin, setNewCoin] = useState<string>('')
     const [coins, setCoins] = useState<Coin[]>([])
-    const [message, setMessage] = useState<string>('')
 
     useEffect(() => {   
         const searchCoin = async () => {
@@ -14,16 +13,7 @@ const Search = () => {
             //marketcap limit currently hardcoded - feature for user to select?
             if (searchedCoins){
                 const filteredCoins: Coin[] = coingecko.filterByMarketCapRank(searchedCoins as Coin[], 200)
-
-                //only show 5 or fewer coins  - currently hardcoded
-                if (filteredCoins.length <= 5){
-                    setCoins(filteredCoins)
-                    setMessage('Here are your coins!')
-                }
-                else {
-                    setMessage('Refine your search')
-                    setCoins([])
-                }
+                setCoins(filteredCoins)
             }
         }
         searchCoin()
