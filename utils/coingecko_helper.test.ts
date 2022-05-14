@@ -22,7 +22,6 @@ const MOCK_DATA = <CoingeckoSearchJSON>{
   ]
 }
 
-
 global.fetch = jest.fn(() => Promise.resolve({
     json: () => Promise.resolve(MOCK_DATA)
 })) as jest.Mock;
