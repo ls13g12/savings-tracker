@@ -1,6 +1,7 @@
 export interface AssetData {
-    name: string
+    id: string,
+    symbol: string,
+    name: string,
     quantity: number
-    currentPrice: number
     buyPrice: number
 }

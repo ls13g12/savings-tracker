@@ -6,16 +6,18 @@ import {AssetData} from '../types/Asset'
 export default function Home(){
 
     const MOCK_ASSETS = [{
-        name: 'tezos',
-        quantity: 100,
-        buyPrice: 200,
-        currPrice: 300
+        id: 'tezos',
+        symbol: 'xtz',
+        name: 'Tezos',
+        quantity: 120,
+        buyPrice: 3.00
     },
     {
-        name: 'bitcoin',
-        quantity: 0.01,
-        buyPrice: 20000,
-        currPrice: 30000
+        id: 'bitcoin',
+        symbol: 'btc',
+        name: 'Bitcoin',
+        quantity: 0.1,
+        buyPrice: 20000
     }]
 
     return (
@@ -27,7 +29,13 @@ export default function Home(){
         <main>
             <div>
                 {MOCK_ASSETS.map((asset) => (
-                    <Asset name={asset.name} quantity={asset.quantity} currPrice={asset.currPrice} buyPrice={asset.buyPrice}/>
+                    <Asset key={asset.id} 
+                        id={asset.id} 
+                        symbol={asset.symbol}
+                        name={asset.name}
+                        quantity={asset.quantity}
+                        buyPrice={asset.buyPrice}                        
+                        />
                 ))}
             </div>
         </main>
