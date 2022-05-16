@@ -1,4 +1,4 @@
-import coingecko from "../utils/coingecko_helper"
+import { searchCoingecko, filterCoinsByMarketCapRank } from "./coingecko-search"
 import { CoingeckoSearchJSON } from '../types/Coin'
 
 const MOCK_DATA = <CoingeckoSearchJSON>{
@@ -29,18 +29,18 @@ global.fetch = jest.fn(() => Promise.resolve({
 
 describe("test coingecko api search", () => {
     it("should return a list of coins", async () => {
-        await expect(coingecko.search('tezos')).resolves.not.toHaveLength(0)
+        await expect(searchCoingecko('tezos')).resolves.not.toHaveLength(0)
     })
 })
 
 describe("test filter by market cap rank", () => {
     it("should filter the list down to length one", () => {
-        expect(coingecko.filterByMarketCapRank(MOCK_DATA.coins, 100)).toHaveLength(1)
+        expect(filterCoinsByMarketCapRank(MOCK_DATA.coins, 100)).toHaveLength(1)
     })
     it("should show the id as tezos", () => {
-        expect(coingecko.filterByMarketCapRank(MOCK_DATA.coins, 100)[0].id).toBe('tezos')
+        expect(filterCoinsByMarketCapRank(MOCK_DATA.coins, 100)[0].id).toBe('tezos')
     })
     it("should show the market rank cap as less than 100", () => {
-        expect(coingecko.filterByMarketCapRank(MOCK_DATA.coins, 100)[0].market_cap_rank).toBeLessThan(100)
+        expect(filterCoinsByMarketCapRank(MOCK_DATA.coins, 100)[0].market_cap_rank).toBeLessThan(100)
     })
 })

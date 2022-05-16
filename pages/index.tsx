@@ -1,25 +1,12 @@
 import Head from 'next/head'
 import Asset from '../components/Asset'
-import {AssetData} from '../types/Asset'
+import { AssetData } from '../types/Asset'
+import MOCK_ASSETS from '../utils/mock-data'
 
 
 export default function Home(){
 
-    const MOCK_ASSETS = [{
-        id: 'tezos',
-        symbol: 'xtz',
-        name: 'Tezos',
-        quantity: 120,
-        buyPrice: 3.00
-    },
-    {
-        id: 'bitcoin',
-        symbol: 'btc',
-        name: 'Bitcoin',
-        quantity: 0.1,
-        buyPrice: 20000
-    }]
-
+    const assets: AssetData[] = MOCK_ASSETS
     return (
         <div>
         <Head>
@@ -28,7 +15,7 @@ export default function Home(){
 
         <main>
             <div>
-                {MOCK_ASSETS.map((asset) => (
+                {assets.map((asset) => (
                     <Asset key={asset.id} 
                         id={asset.id} 
                         symbol={asset.symbol}

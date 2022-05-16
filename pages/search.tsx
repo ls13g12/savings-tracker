@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import coingecko from '../utils/coingecko_helper';
+import {searchCoingecko, filterCoinsByMarketCapRank} from '../utils/coingecko-search';
 import { Coin } from '../types/Coin';
 
 const Search = () => {
@@ -8,11 +8,11 @@ const Search = () => {
 
     useEffect(() => {   
         const searchCoin = async () => {
-            const searchedCoins = await coingecko.search(newCoin)
+            const searchedCoins = await searchCoingecko(newCoin)
 
             //marketcap limit currently hardcoded - feature for user to select?
             if (searchedCoins){
-                const filteredCoins: Coin[] = coingecko.filterByMarketCapRank(searchedCoins as Coin[], 200)
+                const filteredCoins: Coin[] = filterCoinsByMarketCapRank(searchedCoins as Coin[], 200)
                 setCoins(filteredCoins)
             }
         }
