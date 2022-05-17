@@ -1,17 +1,17 @@
 import {Schema} from "mongoose";
-import BaseAsset from "./Asset";
-import {baseOptions} from "./Asset";
+import BaseAsset from "./BaseAsset";
+import {baseOptions} from "./BaseAsset";
 
 interface ICryptoAsset {
-    id: string,
-    symbol: string,
+    coingecko_id: string,
+    coingecko_symbol: string,
     buyPrice: number,
     quantity: number
 }
 
 const CryptoAsset = BaseAsset.discriminator('CryptoAsset', new Schema<ICryptoAsset>({
-    id: String,
-    symbol: String,
+    coingecko_id: String,
+    coingecko_symbol: String,
     buyPrice: Number,
     quantity: Number
 }, baseOptions))

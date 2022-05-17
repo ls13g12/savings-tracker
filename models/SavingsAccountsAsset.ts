@@ -1,6 +1,6 @@
 import {Schema} from "mongoose";
-import BaseAsset from "./Asset";
-import {baseOptions} from "./Asset";
+import BaseAsset from "./BaseAsset";
+import {baseOptions} from "./BaseAsset";
 
 interface ISavingsAccountAsset {
     balance: number,
