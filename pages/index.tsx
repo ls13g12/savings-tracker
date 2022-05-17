@@ -1,7 +1,12 @@
 import Head from 'next/head'
-import { InferGetStaticPropsType } from 'next'
+import Asset from '../components/Asset'
+import { AssetData } from '../types/Asset'
+import MOCK_ASSETS from '../utils/mock-data'
 
-export default function Home({ coins }: InferGetStaticPropsType<typeof getStaticProps>){
+
+export default function Home(){
+
+    const assets: AssetData[] = MOCK_ASSETS
     return (
         <div>
         <Head>
@@ -9,30 +14,18 @@ export default function Home({ coins }: InferGetStaticPropsType<typeof getStatic
         </Head>
 
         <main>
-            <h1>Hello World</h1>
             <div>
-                {coins.map((coin: Coin) => (
-                <div key={coin.item.coin_id}> {coin.item.name}: {Number(coin.item.price_btc).toFixed(8)} BTC </div>
+                {assets.map((asset) => (
+                    <Asset key={asset.id} 
+                        id={asset.id} 
+                        symbol={asset.symbol}
+                        name={asset.name}
+                        quantity={asset.quantity}
+                        buyPrice={asset.buyPrice}                        
+                        />
                 ))}
             </div>
         </main>
         </div>
     )
- }
-
-interface Coin {
-    item: {
-        coin_id: number
-        name: string
-        price_btc: string
-    }
-}
-
-export const getStaticProps = async () => {
-    const res = await fetch(`https://api.coingecko.com/api/v3/search/trending`)
-    const data = await res.json()
-
-    return{ 
-        props: {coins: data.coins}
-    }
 }
