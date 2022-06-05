@@ -1,12 +1,10 @@
 import Head from 'next/head'
 import Asset from '../components/Asset'
-import { AssetData } from '../types/Asset'
-import MOCK_ASSETS from '../utils/mock-data'
+import { AssetProps } from '../types/Asset'
 
 
-export default function Home(){
+export default function Home({cryptoAssets}: AssetProps){
 
-    const assets: AssetData[] = MOCK_ASSETS
     return (
         <div>
         <Head>
@@ -15,10 +13,10 @@ export default function Home(){
 
         <main>
             <div>
-                {assets.map((asset) => (
-                    <Asset key={asset.id} 
-                        id={asset.id} 
-                        symbol={asset.symbol}
+                {cryptoAssets.map((asset) => (
+                    <Asset key={asset.coingecko_id} 
+                        coingecko_id={asset.coingecko_id} 
+                        coingecko_symbol={asset.coingecko_symbol}
                         name={asset.name}
                         quantity={asset.quantity}
                         buyPrice={asset.buyPrice}                        
@@ -29,3 +27,22 @@ export default function Home(){
         </div>
     )
 }
+
+export async function getServerSideProps() {
+  const res = await fetch(`http://localhost:3000/api/portfolio`)
+  const data = await res.json()
+
+  if (!data) {
+    return {
+      notFound: true,
+    }
+  }
+
+  return {
+    props: { 
+      cryptoAssets: data.data.cryptoAssets,
+      stocksAssets: data.data.stocksAssets
+    } // will be passed to the page component as props
+  }
+}
+

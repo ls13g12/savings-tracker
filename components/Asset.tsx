@@ -1,10 +1,10 @@
 import assetStyles from '../styles/Asset.module.css'
 import { getCoinPriceFromCoingecko } from '../utils/coingecko-price'
-import { AssetData } from '../types/Asset'
+import { CryptoAsset } from '../types/Asset'
 import { useEffect, useState } from 'react'
 
 
-const Asset = ({id, symbol, name, quantity, buyPrice } : AssetData) => {
+const Asset = ({coingecko_id, coingecko_symbol, name, quantity, buyPrice }: CryptoAsset) => {
     const [currPrice, setCurrPrice] = useState<number>(0)
     const [currValue, setCurrValue] = useState<number>(0)
     const buyValue = quantity * buyPrice
@@ -12,11 +12,11 @@ const Asset = ({id, symbol, name, quantity, buyPrice } : AssetData) => {
     //sets current price for asset using coingecki api call upon page load
     useEffect(() => {
         const getCurrPrice = async() => {
-            const price = await getCoinPriceFromCoingecko(id)
+            const price = await getCoinPriceFromCoingecko(coingecko_id)
             setCurrPrice(price)
         }
         getCurrPrice()
-    }, [id])
+    }, [coingecko_id])
 
     //calculates current value of user held asset to display
     //updates upon change in quantity or currPrice
@@ -35,7 +35,7 @@ const Asset = ({id, symbol, name, quantity, buyPrice } : AssetData) => {
         <div className={assetStyles.container}>
             <div className={assetStyles.name}>{name}</div>
             <div>£{currValue?.toFixed(2)}</div>
-            <div>{quantity} {symbol}</div>
+            <div>{quantity} {coingecko_symbol}</div>
             <div>bought for £{buyValue?.toFixed(2)}</div>
         </div>
     )
