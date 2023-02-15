@@ -1,24 +1,18 @@
-export interface CryptoAsset {
-  coingecko_id: string,
-  coingecko_symbol: string,
-  //datePurchased: Date,
-  //dateUpdated: Date,
-  name: string,
-  quantity: number
-  buyPrice: number
+
+export interface ValueHistoryEntry {
+  value: Number,
+  date: Date
 }
-export interface StocksAsset{
+
+export interface Asset {
   name: string
-  //datePurchased: Date
-  //dateUpdated: Date
-  id: string,
-  buyPrice: number,
-  quantity: number
+  description: string
+  dateUpdated: string,
+  value: number,
+  valueHistory: ValueHistoryEntry[]
 }
 
 export interface AssetProps {
-  [assetType: string]: CryptoAsset[] | StocksAsset[];
-
-  cryptoAssets: CryptoAsset[];
-  stocksAssets: StocksAsset[];
+  Assets: Asset[];
 }
+
