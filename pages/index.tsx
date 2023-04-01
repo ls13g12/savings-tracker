@@ -1,11 +1,18 @@
+import { useRouter } from 'next/router';
 import Head from 'next/head'
-import Asset from '../components/Asset'
+import AssetCard from '../components/AssetCard'
 import AddAssetForm from '../components/AddAssetForm'
 import { AssetProps } from '../types/Asset'
 import { ValueHistoryEntry } from '../types/Asset'
 
 
 export default function Home({Assets}: AssetProps){
+    const router = useRouter();
+    // Call this function whenever you want to
+    // refresh props!
+    const refreshData = () => {
+      router.replace(router.asPath);
+    }
 
     return (
         <div>
@@ -16,17 +23,22 @@ export default function Home({Assets}: AssetProps){
         <main>
             <div>
                 {Assets.map((asset) => (
-                    <Asset key={asset.name} 
-                        name={asset.name} 
-                        description={asset.description}
-                        value={asset.value}
-                        dateUpdated={asset.dateUpdated?.toString()}
-                        valueHistory={asset.valueHistory}                     
-                      />
+                    <div>
+                      <AssetCard key={asset._id} 
+                          _id={asset._id}
+                          name={asset.name} 
+                          description={asset.description}
+                          value={asset.value}
+                          dateUpdated={asset.dateUpdated?.toString()}
+                          valueHistory={asset.valueHistory}                  
+                        />
+                    </div>                     
                 ))}
             </div>
             <div>
-              <AddAssetForm/>
+              <AddAssetForm key=""
+                refreshData={refreshData}
+              />
             </div>
         </main>
         </div>

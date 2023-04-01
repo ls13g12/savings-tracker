@@ -1,12 +1,12 @@
-
 export interface ValueHistoryEntry {
   value: Number,
   date: Date
 }
 
 export interface Asset {
-  name: string
-  description: string
+  _id: string,
+  name: string,
+  description: string,
   dateUpdated: string,
   value: number,
   valueHistory: ValueHistoryEntry[]
