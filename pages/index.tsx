@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/router'
 import Head from 'next/head'
 import AssetCard from '../components/AssetCard'
 import AddAssetForm from '../components/AddAssetForm'
@@ -7,7 +7,7 @@ import { ValueHistoryEntry } from '../types/Asset'
 
 
 export default function Home({Assets}: AssetProps){
-    const router = useRouter();
+    const router = useRouter()
     // Call this function whenever you want to
     // refresh props!
     const refreshData = () => {

@@ -16,3 +16,7 @@ export interface AssetProps {
   Assets: Asset[];
 }
 
+export interface SingleAssetProps {
+  foundAsset: Asset;
+}
+
