@@ -21,8 +21,8 @@ export default function Home({Assets}: AssetProps){
         <main>
             <div>
                 {Assets.map((asset) => (
-                    <div>
-                      <AssetCard key={asset._id} 
+                    <div key={asset._id}>
+                      <AssetCard  
                           _id={asset._id}
                           name={asset.name} 
                           description={asset.description}
