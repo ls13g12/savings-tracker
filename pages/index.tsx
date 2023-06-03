@@ -33,7 +33,7 @@ export default function Home({Assets}: AssetProps){
                 ))}
             </div>
             <div>
-              <AddAssetForm key=""
+              <AddAssetForm
                 refreshData={refreshData}
               />
             </div>
