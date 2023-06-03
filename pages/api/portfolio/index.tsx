@@ -1,7 +1,7 @@
 import dbConnect from '../../../lib/dbConnect'
 import Asset from '../../../models/Asset'
 
-export default async function handler(req, res) {
+export default async function handler(req: any, res: any) {
   const { method } = req
 
   await dbConnect()
