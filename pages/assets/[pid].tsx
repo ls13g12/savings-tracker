@@ -1,9 +1,15 @@
 import { useRouter } from 'next/router'
+import AssetCard from '../../components/AssetCard'
 import { SingleAssetProps } from '../../types/Asset'
+import UpdateAssetForm from '../../components/UpdateAssetForm'
+var moment = require('moment'); 
 
 export default function AssetPage({foundAsset}: SingleAssetProps){
   const router = useRouter()
-  const handleDelete = async () => {
+  const refreshData = () => {
+    router.replace(router.asPath);
+  }
+  const handleDeleteAsset = async () => {
     const endpoint = `/api/portfolio/assets/${foundAsset._id}`
     const options = {
       method: 'DELETE',
@@ -16,13 +22,48 @@ export default function AssetPage({foundAsset}: SingleAssetProps){
       router.push('/')
     }
   }
+
+  const handleDeleteHistoryEntry = async (value: number, date: string) => {
+    const endpoint = `/api/portfolio/assets/${foundAsset._id}`
+    console.log("DO I MAKE IT THIS FAR?")
+    const data = {
+      valueHistoryEntryDateToRemove: date,
+      valueHistoryEntryValueToRemove: value,
+    }
+    const JSONdata = JSON.stringify(data)
+    const options = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSONdata 
+    }
+    const response = await fetch(endpoint, options)
+    if (response.status < 300) {
+      router.replace(router.asPath);
+    }
+  }
+  
   
   return (
     <div>
-      Asset: {foundAsset._id}
-      Name: {foundAsset.name}
-      Value: {foundAsset.value}
-      <button onClick={handleDelete}>Delete</button>
+      <AssetCard key={foundAsset._id} 
+        _id={foundAsset._id}
+        name={foundAsset.name} 
+        description={foundAsset.description}
+        value={foundAsset.value}
+        dateUpdated={foundAsset.dateUpdated?.toString()}                 
+      />
+      <button onClick={handleDeleteAsset}>Delete Asset</button>
+
+      <div>
+        Update Asset Value
+        <UpdateAssetForm key=""
+          name={foundAsset.name}
+          _id={foundAsset._id}
+          refreshData={refreshData}
+        />
+      </div>
     </div>
   )
 }

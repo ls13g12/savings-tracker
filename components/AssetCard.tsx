@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
 import assetStyles from '../styles/Asset.module.css'
-import { Asset } from '../types/Asset'
+import { AssetType } from '../types/Asset'
 var moment = require('moment'); 
 
-const AssetCard = ({_id, name, description, value, dateUpdated}: Asset) => {
+const AssetCard = ({_id, name, description, value, dateUpdated}: AssetType) => {
     const router = useRouter();
   
     return(

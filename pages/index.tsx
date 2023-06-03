@@ -3,8 +3,6 @@ import Head from 'next/head'
 import AssetCard from '../components/AssetCard'
 import AddAssetForm from '../components/AddAssetForm'
 import { AssetProps } from '../types/Asset'
-import { ValueHistoryEntry } from '../types/Asset'
-
 
 export default function Home({Assets}: AssetProps){
     const router = useRouter()
@@ -29,8 +27,7 @@ export default function Home({Assets}: AssetProps){
                           name={asset.name} 
                           description={asset.description}
                           value={asset.value}
-                          dateUpdated={asset.dateUpdated?.toString()}
-                          valueHistory={asset.valueHistory}                  
+                          dateUpdated={asset.dateUpdated?.toString()}               
                         />
                     </div>                     
                 ))}

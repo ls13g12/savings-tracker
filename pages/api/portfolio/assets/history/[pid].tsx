@@ -1,27 +1,28 @@
+// import { useRouter } from 'next/router';
 import dbConnect from 'lib/dbConnect'
-import Asset from 'models/Asset'
 import AssetHistory from 'models/AssetHistory'
+import { SingleAssetProps } from 'types/Asset'
 
 export default async function handler(req: any, res: any) {
   const { method } = req
-
+  const { pid } = req.query
+  // const router = useRouter();
   await dbConnect()
 
   switch (method) {
     case 'GET':
       try {
-        const Assets = await Asset.find({})
-        res.status(200).json({ success: true, data: Assets})
+        const foundAssets = await AssetHistory.find({assetId: pid})
+        res.status(200).json({ success: true, data: foundAssets})
       } catch (error) {
         res.status(400).json({ success: false })
       }
       break
-    case 'POST':
+      
+    case 'DELETE':
       try {
-        const newAsset = await Asset.create(
-          req.body
-        ) /* create a new model in the database */
-        res.status(201).json({ success: true, data: newAsset })
+        await AssetHistory.deleteOne({_id: pid})
+        res.status(201).end()
       } catch (error) {
         res.status(400).json({ success: false })
       }
