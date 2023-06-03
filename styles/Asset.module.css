@@ -1,5 +1,5 @@
 .container {
-    width: 300px;
+    width: 500px;
     display: grid;
     grid-template-columns: 40% 60%;
     background-color: white;

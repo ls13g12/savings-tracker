@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
-import 'dotenv/config'
+import dotenv from 'dotenv'
+dotenv.config({ path: '.env.local' })
 
 const MONGODB_URI: string = process.env.MONGODB_URI || ''
 
@@ -28,6 +29,7 @@ async function dbConnect() {
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
+      useNewUrlParser: true,
     }
 
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {

@@ -1,9 +1,16 @@
+import { useRouter } from 'next/router'
 import Head from 'next/head'
-import Asset from '../components/Asset'
+import AssetCard from '../components/AssetCard'
+import AddAssetForm from '../components/AddAssetForm'
 import { AssetProps } from '../types/Asset'
 
-
-export default function Home({cryptoAssets}: AssetProps){
+export default function Home({Assets}: AssetProps){
+    const router = useRouter()
+    // Call this function whenever you want to
+    // refresh props!
+    const refreshData = () => {
+      router.replace(router.asPath);
+    }
 
     return (
         <div>
@@ -13,15 +20,22 @@ export default function Home({cryptoAssets}: AssetProps){
 
         <main>
             <div>
-                {cryptoAssets.map((asset) => (
-                    <Asset key={asset.coingecko_id} 
-                        coingecko_id={asset.coingecko_id} 
-                        coingecko_symbol={asset.coingecko_symbol}
-                        name={asset.name}
-                        quantity={asset.quantity}
-                        buyPrice={asset.buyPrice}                        
+                {Assets.map((asset) => (
+                    <div key={asset._id}>
+                      <AssetCard  
+                          _id={asset._id}
+                          name={asset.name} 
+                          description={asset.description}
+                          value={asset.value}
+                          dateUpdated={asset.dateUpdated?.toString()}               
                         />
+                    </div>                     
                 ))}
+            </div>
+            <div>
+              <AddAssetForm
+                refreshData={refreshData}
+              />
             </div>
         </main>
         </div>
@@ -34,14 +48,13 @@ export async function getServerSideProps() {
 
   if (!data) {
     return {
-      notFound: true,
+        notFound: true,
     }
   }
 
   return {
     props: { 
-      cryptoAssets: data.data.cryptoAssets,
-      stocksAssets: data.data.stocksAssets
+      Assets: data.data.Assets || null
     } // will be passed to the page component as props
   }
 }
