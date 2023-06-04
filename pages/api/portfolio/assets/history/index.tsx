@@ -4,7 +4,6 @@ import AssetHistory from 'models/AssetHistory'
 
 export default async function handler(req: any, res: any) {
   const { method } = req
-  const { pid } = req.query
   
   await dbConnect()
 
@@ -18,6 +17,18 @@ export default async function handler(req: any, res: any) {
       }
       break
       
+    case 'DELETE':
+      try {
+        const body = req.body
+        if (body.IdToDelete){
+          const resp = await AssetHistory.deleteOne({_id: body.IdToDelete})
+          res.status(201).end()
+        }
+      } catch (error) {
+        res.status(400).json({ success: false })
+      }
+      break
+
     default:
       res.status(400).json({ success: false })
       break

@@ -1,25 +1,15 @@
 import { AssetHistoryEntryType, AssetHistoryProps } from 'types/Asset'
-var moment = require('moment'); 
+import { useRouter } from 'next/router'
+import { useState } from 'react';
+import AssetHistoryList from '@/components/AssetHistoryList';
 
-export default function AssetPage({foundAssets}: AssetHistoryProps){
-  
+export default function AssetHistoryPage({foundAssets}: AssetHistoryProps){
+
   return (
-      <div>
-        History
-        <ul>
-          {/* refactor into li entry card*/}
-          {foundAssets.map((asset: AssetHistoryEntryType) => (
-            <li key={asset._id}>
-              {asset.name}
-              <br/>
-              {asset.value}
-              <br/>
-              {asset.dateAdded && <div>{moment(asset.dateAdded).format('MMMM, DD yyyy')}</div>}
-            </li>
-          ))}  
-        </ul>
-    
-        </div>
+    <div>
+    <AssetHistoryList foundAssets={foundAssets}/>
+    </div>
+
   )
 }
 

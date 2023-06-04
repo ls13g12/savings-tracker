@@ -1,5 +1,3 @@
-import Asset from './AssetCard'
-
 interface addAssetFormProps {
   _id: string
   name: string
